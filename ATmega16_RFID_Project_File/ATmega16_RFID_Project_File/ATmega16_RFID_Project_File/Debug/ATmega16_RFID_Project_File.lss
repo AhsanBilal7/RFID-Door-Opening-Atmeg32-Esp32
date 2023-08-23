@@ -1,0 +1,537 @@
+
+ATmega16_RFID_Project_File.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000002ea  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000e  00800060  000002ea  0000035e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000036c  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000039c  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 000000a0  00000000  00000000  000003d8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000d54  00000000  00000000  00000478  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000008b9  00000000  00000000  000011cc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000659  00000000  00000000  00001a85  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000128  00000000  00000000  000020e0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000004db  00000000  00000000  00002208  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000569  00000000  00000000  000026e3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000070  00000000  00000000  00002c4c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ea ee       	ldi	r30, 0xEA	; 234
+  68:	f2 e0       	ldi	r31, 0x02	; 2
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	ae 36       	cpi	r26, 0x6E	; 110
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 41 00 	call	0x82	; 0x82 <main>
+  7a:	0c 94 73 01 	jmp	0x2e6	; 0x2e6 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <main>:
+#include "USART_RS232_H_file.h"	/* add USART library */
+#include "LCD16x2_4bit.h"		/* add LDC16x2 library */
+#include <util/delay.h>
+
+int main()
+{DDRA = 0xff;
+  82:	cf 93       	push	r28
+  84:	df 93       	push	r29
+  86:	cd b7       	in	r28, 0x3d	; 61
+  88:	de b7       	in	r29, 0x3e	; 62
+  8a:	2f 97       	sbiw	r28, 0x0f	; 15
+  8c:	0f b6       	in	r0, 0x3f	; 63
+  8e:	f8 94       	cli
+  90:	de bf       	out	0x3e, r29	; 62
+  92:	0f be       	out	0x3f, r0	; 63
+  94:	cd bf       	out	0x3d, r28	; 61
+  96:	8f ef       	ldi	r24, 0xFF	; 255
+  98:	8a bb       	out	0x1a, r24	; 26
+	char test[13]= "111111222222";
+	char RFID[15];
+	USART_Init(9600);			/* initialize USART with 9600 baud rate */
+  9a:	60 e8       	ldi	r22, 0x80	; 128
+  9c:	75 e2       	ldi	r23, 0x25	; 37
+  9e:	80 e0       	ldi	r24, 0x00	; 0
+  a0:	90 e0       	ldi	r25, 0x00	; 0
+  a2:	0e 94 1f 01 	call	0x23e	; 0x23e <USART_Init>
+	lcdinit();					/* initialize LCD16x2 display */
+  a6:	0e 94 d2 00 	call	0x1a4	; 0x1a4 <lcdinit>
+	lcd_clear();
+  aa:	0e 94 1b 01 	call	0x236	; 0x236 <lcd_clear>
+	lcd_gotoxy(0,0);			/* Set row and column position at 0,0 */		
+  ae:	60 e0       	ldi	r22, 0x00	; 0
+  b0:	80 e0       	ldi	r24, 0x00	; 0
+  b2:	0e 94 f0 00 	call	0x1e0	; 0x1e0 <lcd_gotoxy>
+	memset(RFID,0,15);
+  b6:	fe 01       	movw	r30, r28
+  b8:	31 96       	adiw	r30, 0x01	; 1
+  ba:	8f e0       	ldi	r24, 0x0F	; 15
+  bc:	df 01       	movw	r26, r30
+  be:	1d 92       	st	X+, r1
+  c0:	8a 95       	dec	r24
+  c2:	e9 f7       	brne	.-6      	; 0xbe <main+0x3c>
+	lcd_print("1 AHSAN RFID:");
+  c4:	80 e6       	ldi	r24, 0x60	; 96
+  c6:	90 e0       	ldi	r25, 0x00	; 0
+  c8:	0e 94 05 01 	call	0x20a	; 0x20a <lcd_print>
+  cc:	7e 01       	movw	r14, r28
+  ce:	bd e0       	ldi	r27, 0x0D	; 13
+  d0:	eb 0e       	add	r14, r27
+  d2:	f1 1c       	adc	r15, r1
+  d4:	8e 01       	movw	r16, r28
+  d6:	0f 5f       	subi	r16, 0xFF	; 255
+  d8:	1f 4f       	sbci	r17, 0xFF	; 255
+	while(1)
+	{	
+		for (int i=0;i<12;i++)
+		{
+			RFID[i]=USART_RxChar();
+  da:	0e 94 4d 01 	call	0x29a	; 0x29a <USART_RxChar>
+  de:	f8 01       	movw	r30, r16
+  e0:	81 93       	st	Z+, r24
+  e2:	8f 01       	movw	r16, r30
+	lcd_gotoxy(0,0);			/* Set row and column position at 0,0 */		
+	memset(RFID,0,15);
+	lcd_print("1 AHSAN RFID:");
+	while(1)
+	{	
+		for (int i=0;i<12;i++)
+  e4:	ee 15       	cp	r30, r14
+  e6:	ff 05       	cpc	r31, r15
+  e8:	c1 f7       	brne	.-16     	; 0xda <main+0x58>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  ea:	fa e1       	ldi	r31, 0x1A	; 26
+  ec:	fa 95       	dec	r31
+  ee:	f1 f7       	brne	.-4      	; 0xec <main+0x6a>
+  f0:	00 c0       	rjmp	.+0      	; 0xf2 <main+0x70>
+		{
+			RFID[i]=USART_RxChar();
+		}
+		
+		_delay_us(10);
+		lcd_gotoxy(0,1);
+  f2:	61 e0       	ldi	r22, 0x01	; 1
+  f4:	80 e0       	ldi	r24, 0x00	; 0
+  f6:	0e 94 f0 00 	call	0x1e0	; 0x1e0 <lcd_gotoxy>
+		//lcd_print("Ahsan");
+		lcd_print(RFID);
+  fa:	ce 01       	movw	r24, r28
+  fc:	01 96       	adiw	r24, 0x01	; 1
+  fe:	0e 94 05 01 	call	0x20a	; 0x20a <lcd_print>
+
+//		lcd_print(RFID);		/* print 12 digit tag number on LCD */
+	}  
+ 102:	e8 cf       	rjmp	.-48     	; 0xd4 <main+0x52>
+
+00000104 <lcdcommand>:
+ */ 
+
+#include "LCD16x2_4bit.h"
+void lcdcommand(unsigned char cmnd)
+{
+	LCD_DPRT = (LCD_DPRT & 0x0f)|(cmnd & 0xf0);		/* SEND COMMAND TO DATA PORT */
+ 104:	98 b3       	in	r25, 0x18	; 24
+ 106:	9f 70       	andi	r25, 0x0F	; 15
+ 108:	28 2f       	mov	r18, r24
+ 10a:	20 7f       	andi	r18, 0xF0	; 240
+ 10c:	92 2b       	or	r25, r18
+ 10e:	98 bb       	out	0x18, r25	; 24
+	LCD_DPRT &= ~ (1<<LCD_RS);						/* RS = 0 FOR COMMAND */
+ 110:	c0 98       	cbi	0x18, 0	; 24
+	LCD_DPRT |= (1<<LCD_EN);						/* EN = 1 FOR H TO L PULSE */
+ 112:	c1 9a       	sbi	0x18, 1	; 24
+ 114:	32 e0       	ldi	r19, 0x02	; 2
+ 116:	3a 95       	dec	r19
+ 118:	f1 f7       	brne	.-4      	; 0x116 <lcdcommand+0x12>
+ 11a:	00 c0       	rjmp	.+0      	; 0x11c <lcdcommand+0x18>
+	_delay_us(1);									/* WAIT FOR MAKE ENABLE WIDE */
+	LCD_DPRT &= ~(1<<LCD_EN);						/* EN = 0 FOR H TO L PULSE */
+ 11c:	c1 98       	cbi	0x18, 1	; 24
+ 11e:	e7 ec       	ldi	r30, 0xC7	; 199
+ 120:	f0 e0       	ldi	r31, 0x00	; 0
+ 122:	31 97       	sbiw	r30, 0x01	; 1
+ 124:	f1 f7       	brne	.-4      	; 0x122 <lcdcommand+0x1e>
+ 126:	00 c0       	rjmp	.+0      	; 0x128 <lcdcommand+0x24>
+ 128:	00 00       	nop
+	_delay_us(100);									/* WAIT FOR MAKE ENABLE WIDE */
+	
+	LCD_DPRT = (LCD_DPRT & 0x0f)|(cmnd << 4);		/* SEND COMMAND TO DATA PORT */
+ 12a:	28 b3       	in	r18, 0x18	; 24
+ 12c:	2f 70       	andi	r18, 0x0F	; 15
+ 12e:	f0 e1       	ldi	r31, 0x10	; 16
+ 130:	8f 9f       	mul	r24, r31
+ 132:	c0 01       	movw	r24, r0
+ 134:	11 24       	eor	r1, r1
+ 136:	82 2b       	or	r24, r18
+ 138:	88 bb       	out	0x18, r24	; 24
+	LCD_DPRT |= (1<<LCD_EN);						/* EN = 1 FOR H TO L PULSE */
+ 13a:	c1 9a       	sbi	0x18, 1	; 24
+ 13c:	32 e0       	ldi	r19, 0x02	; 2
+ 13e:	3a 95       	dec	r19
+ 140:	f1 f7       	brne	.-4      	; 0x13e <lcdcommand+0x3a>
+ 142:	00 c0       	rjmp	.+0      	; 0x144 <lcdcommand+0x40>
+	_delay_us(1);									/* WAIT FOR MAKE ENABLE WIDE */
+	LCD_DPRT &= ~(1<<LCD_EN);						/* EN = 0 FOR H TO L PULSE */
+ 144:	c1 98       	cbi	0x18, 1	; 24
+ 146:	8f e9       	ldi	r24, 0x9F	; 159
+ 148:	9f e0       	ldi	r25, 0x0F	; 15
+ 14a:	01 97       	sbiw	r24, 0x01	; 1
+ 14c:	f1 f7       	brne	.-4      	; 0x14a <lcdcommand+0x46>
+ 14e:	00 c0       	rjmp	.+0      	; 0x150 <lcdcommand+0x4c>
+ 150:	00 00       	nop
+ 152:	08 95       	ret
+
+00000154 <lcddata>:
+	_delay_us(2000);								/* WAIT FOR MAKE ENABLE WIDE */
+}
+
+void lcddata(unsigned char data)
+{
+	LCD_DPRT = (LCD_DPRT & 0x0f)|(data & 0xf0);		/* SEND DATA TO DATA PORT */
+ 154:	98 b3       	in	r25, 0x18	; 24
+ 156:	9f 70       	andi	r25, 0x0F	; 15
+ 158:	28 2f       	mov	r18, r24
+ 15a:	20 7f       	andi	r18, 0xF0	; 240
+ 15c:	92 2b       	or	r25, r18
+ 15e:	98 bb       	out	0x18, r25	; 24
+	LCD_DPRT |= (1<<LCD_RS);						/* MAKE RS = 1 FOR DATA */
+ 160:	c0 9a       	sbi	0x18, 0	; 24
+	LCD_DPRT |= (1<<LCD_EN);						/* EN=0 FOR H TO L PULSE */
+ 162:	c1 9a       	sbi	0x18, 1	; 24
+ 164:	32 e0       	ldi	r19, 0x02	; 2
+ 166:	3a 95       	dec	r19
+ 168:	f1 f7       	brne	.-4      	; 0x166 <lcddata+0x12>
+ 16a:	00 c0       	rjmp	.+0      	; 0x16c <lcddata+0x18>
+	_delay_us(1);									/* WAIT FOR MAKE ENABLE WIDE */
+	LCD_DPRT &= ~(1<<LCD_EN);						/* EN = 0 FOR H TO L PULSE */
+ 16c:	c1 98       	cbi	0x18, 1	; 24
+ 16e:	e7 ec       	ldi	r30, 0xC7	; 199
+ 170:	f0 e0       	ldi	r31, 0x00	; 0
+ 172:	31 97       	sbiw	r30, 0x01	; 1
+ 174:	f1 f7       	brne	.-4      	; 0x172 <lcddata+0x1e>
+ 176:	00 c0       	rjmp	.+0      	; 0x178 <lcddata+0x24>
+ 178:	00 00       	nop
+	_delay_us(100);									/* WAIT FOR MAKE ENABLE WIDE */
+	
+	LCD_DPRT = (LCD_DPRT & 0x0f)|(data << 4);		/*  */
+ 17a:	28 b3       	in	r18, 0x18	; 24
+ 17c:	2f 70       	andi	r18, 0x0F	; 15
+ 17e:	f0 e1       	ldi	r31, 0x10	; 16
+ 180:	8f 9f       	mul	r24, r31
+ 182:	c0 01       	movw	r24, r0
+ 184:	11 24       	eor	r1, r1
+ 186:	82 2b       	or	r24, r18
+ 188:	88 bb       	out	0x18, r24	; 24
+	LCD_DPRT |= (1<<LCD_EN);						/* EN=0 FOR H TO L PULSE*/
+ 18a:	c1 9a       	sbi	0x18, 1	; 24
+ 18c:	32 e0       	ldi	r19, 0x02	; 2
+ 18e:	3a 95       	dec	r19
+ 190:	f1 f7       	brne	.-4      	; 0x18e <lcddata+0x3a>
+ 192:	00 c0       	rjmp	.+0      	; 0x194 <lcddata+0x40>
+	_delay_us(1);									/* WAIT FOR MAKE ENABLE WIDE*/
+	LCD_DPRT &= ~(1<<LCD_EN);						/* EN = 0 FOR H TO L PULSE*/
+ 194:	c1 98       	cbi	0x18, 1	; 24
+ 196:	8f e9       	ldi	r24, 0x9F	; 159
+ 198:	9f e0       	ldi	r25, 0x0F	; 15
+ 19a:	01 97       	sbiw	r24, 0x01	; 1
+ 19c:	f1 f7       	brne	.-4      	; 0x19a <lcddata+0x46>
+ 19e:	00 c0       	rjmp	.+0      	; 0x1a0 <lcddata+0x4c>
+ 1a0:	00 00       	nop
+ 1a2:	08 95       	ret
+
+000001a4 <lcdinit>:
+	_delay_us(2000);								/* WAIT FOR MAKE ENABLE WIDE*/
+}
+
+void lcdinit()
+{
+	LCD_DDDR = 0xFF;
+ 1a4:	8f ef       	ldi	r24, 0xFF	; 255
+ 1a6:	87 bb       	out	0x17, r24	; 23
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1a8:	2f ef       	ldi	r18, 0xFF	; 255
+ 1aa:	81 ee       	ldi	r24, 0xE1	; 225
+ 1ac:	94 e0       	ldi	r25, 0x04	; 4
+ 1ae:	21 50       	subi	r18, 0x01	; 1
+ 1b0:	80 40       	sbci	r24, 0x00	; 0
+ 1b2:	90 40       	sbci	r25, 0x00	; 0
+ 1b4:	e1 f7       	brne	.-8      	; 0x1ae <lcdinit+0xa>
+ 1b6:	00 c0       	rjmp	.+0      	; 0x1b8 <lcdinit+0x14>
+ 1b8:	00 00       	nop
+	_delay_ms(200);									/* WAIT FOR SOME TIME */
+	lcdcommand(0x33);
+ 1ba:	83 e3       	ldi	r24, 0x33	; 51
+ 1bc:	0e 94 82 00 	call	0x104	; 0x104 <lcdcommand>
+	lcdcommand(0x32);								/* SEND $32 FOR INIT OT 0X02 */
+ 1c0:	82 e3       	ldi	r24, 0x32	; 50
+ 1c2:	0e 94 82 00 	call	0x104	; 0x104 <lcdcommand>
+	lcdcommand(0x28);								/* INIT. LCD 2 LINE, 5 X 7 MATRIX */
+ 1c6:	88 e2       	ldi	r24, 0x28	; 40
+ 1c8:	0e 94 82 00 	call	0x104	; 0x104 <lcdcommand>
+	lcdcommand(0x0C);								/* DISPLAY ON CURSOR ON */
+ 1cc:	8c e0       	ldi	r24, 0x0C	; 12
+ 1ce:	0e 94 82 00 	call	0x104	; 0x104 <lcdcommand>
+	lcdcommand(0x01);								/* LCD CLEAR */
+ 1d2:	81 e0       	ldi	r24, 0x01	; 1
+ 1d4:	0e 94 82 00 	call	0x104	; 0x104 <lcdcommand>
+	lcdcommand(0x82);								/* SHIFT CURSOR TO WRITE */
+ 1d8:	82 e8       	ldi	r24, 0x82	; 130
+ 1da:	0e 94 82 00 	call	0x104	; 0x104 <lcdcommand>
+ 1de:	08 95       	ret
+
+000001e0 <lcd_gotoxy>:
+}
+
+void lcd_gotoxy(unsigned char x, unsigned char y)
+{
+ 1e0:	cf 93       	push	r28
+ 1e2:	df 93       	push	r29
+ 1e4:	00 d0       	rcall	.+0      	; 0x1e6 <lcd_gotoxy+0x6>
+ 1e6:	cd b7       	in	r28, 0x3d	; 61
+ 1e8:	de b7       	in	r29, 0x3e	; 62
+	unsigned char firstcharadd[]={0x80, 0xC0};
+ 1ea:	90 e8       	ldi	r25, 0x80	; 128
+ 1ec:	99 83       	std	Y+1, r25	; 0x01
+ 1ee:	90 ec       	ldi	r25, 0xC0	; 192
+ 1f0:	9a 83       	std	Y+2, r25	; 0x02
+	lcdcommand(firstcharadd[y] + x);
+ 1f2:	fe 01       	movw	r30, r28
+ 1f4:	e6 0f       	add	r30, r22
+ 1f6:	f1 1d       	adc	r31, r1
+ 1f8:	91 81       	ldd	r25, Z+1	; 0x01
+ 1fa:	89 0f       	add	r24, r25
+ 1fc:	0e 94 82 00 	call	0x104	; 0x104 <lcdcommand>
+}
+ 200:	0f 90       	pop	r0
+ 202:	0f 90       	pop	r0
+ 204:	df 91       	pop	r29
+ 206:	cf 91       	pop	r28
+ 208:	08 95       	ret
+
+0000020a <lcd_print>:
+
+void lcd_print(char *str)
+{
+ 20a:	0f 93       	push	r16
+ 20c:	1f 93       	push	r17
+ 20e:	cf 93       	push	r28
+ 210:	fc 01       	movw	r30, r24
+	unsigned char i=0;
+	while (str[i] != 0)
+ 212:	80 81       	ld	r24, Z
+ 214:	88 23       	and	r24, r24
+ 216:	59 f0       	breq	.+22     	; 0x22e <lcd_print+0x24>
+ 218:	8f 01       	movw	r16, r30
+ 21a:	c0 e0       	ldi	r28, 0x00	; 0
+	{
+		lcddata(str[i]);
+ 21c:	0e 94 aa 00 	call	0x154	; 0x154 <lcddata>
+		i++;
+ 220:	cf 5f       	subi	r28, 0xFF	; 255
+}
+
+void lcd_print(char *str)
+{
+	unsigned char i=0;
+	while (str[i] != 0)
+ 222:	f8 01       	movw	r30, r16
+ 224:	ec 0f       	add	r30, r28
+ 226:	f1 1d       	adc	r31, r1
+ 228:	80 81       	ld	r24, Z
+ 22a:	81 11       	cpse	r24, r1
+ 22c:	f7 cf       	rjmp	.-18     	; 0x21c <lcd_print+0x12>
+	{
+		lcddata(str[i]);
+		i++;
+	}
+}
+ 22e:	cf 91       	pop	r28
+ 230:	1f 91       	pop	r17
+ 232:	0f 91       	pop	r16
+ 234:	08 95       	ret
+
+00000236 <lcd_clear>:
+
+void lcd_clear()
+{
+	lcdcommand(0x01);
+ 236:	81 e0       	ldi	r24, 0x01	; 1
+ 238:	0e 94 82 00 	call	0x104	; 0x104 <lcdcommand>
+ 23c:	08 95       	ret
+
+0000023e <USART_Init>:
+
+#include "USART_RS232_H_file.h"						/* Include USART header file */
+
+void USART_Init(unsigned long BAUDRATE)				/* USART initialize function */
+{ 
+	UCSRB |= (1 << RXEN) | (1 << TXEN);				/* Enable USART transmitter and receiver */
+ 23e:	2a b1       	in	r18, 0x0a	; 10
+ 240:	28 61       	ori	r18, 0x18	; 24
+ 242:	2a b9       	out	0x0a, r18	; 10
+	UCSRC |= (1 << URSEL)| (1 << UCSZ0) | (1 << UCSZ1);	/* Write USCRC for 8 bit data and 1 stop bit */ 
+ 244:	20 b5       	in	r18, 0x20	; 32
+ 246:	26 68       	ori	r18, 0x86	; 134
+ 248:	20 bd       	out	0x20, r18	; 32
+	UBRRL = BAUD_PRESCALE;							/* Load UBRRL with lower 8 bit of prescale value */
+ 24a:	dc 01       	movw	r26, r24
+ 24c:	cb 01       	movw	r24, r22
+ 24e:	88 0f       	add	r24, r24
+ 250:	99 1f       	adc	r25, r25
+ 252:	aa 1f       	adc	r26, r26
+ 254:	bb 1f       	adc	r27, r27
+ 256:	88 0f       	add	r24, r24
+ 258:	99 1f       	adc	r25, r25
+ 25a:	aa 1f       	adc	r26, r26
+ 25c:	bb 1f       	adc	r27, r27
+ 25e:	9c 01       	movw	r18, r24
+ 260:	ad 01       	movw	r20, r26
+ 262:	22 0f       	add	r18, r18
+ 264:	33 1f       	adc	r19, r19
+ 266:	44 1f       	adc	r20, r20
+ 268:	55 1f       	adc	r21, r21
+ 26a:	22 0f       	add	r18, r18
+ 26c:	33 1f       	adc	r19, r19
+ 26e:	44 1f       	adc	r20, r20
+ 270:	55 1f       	adc	r21, r21
+ 272:	60 e0       	ldi	r22, 0x00	; 0
+ 274:	72 e1       	ldi	r23, 0x12	; 18
+ 276:	8a e7       	ldi	r24, 0x7A	; 122
+ 278:	90 e0       	ldi	r25, 0x00	; 0
+ 27a:	0e 94 51 01 	call	0x2a2	; 0x2a2 <__udivmodsi4>
+ 27e:	8f ef       	ldi	r24, 0xFF	; 255
+ 280:	82 0f       	add	r24, r18
+ 282:	89 b9       	out	0x09, r24	; 9
+	UBRRH = (BAUD_PRESCALE >> 8);					/* Load UBRRH with upper 8 bit of prescale value */
+ 284:	da 01       	movw	r26, r20
+ 286:	c9 01       	movw	r24, r18
+ 288:	01 97       	sbiw	r24, 0x01	; 1
+ 28a:	a1 09       	sbc	r26, r1
+ 28c:	b1 09       	sbc	r27, r1
+ 28e:	89 2f       	mov	r24, r25
+ 290:	9a 2f       	mov	r25, r26
+ 292:	ab 2f       	mov	r26, r27
+ 294:	bb 27       	eor	r27, r27
+ 296:	80 bd       	out	0x20, r24	; 32
+ 298:	08 95       	ret
+
+0000029a <USART_RxChar>:
+}
+
+char USART_RxChar()									/* Data receiving function */
+{
+	while (!(UCSRA & (1 << RXC)));					/* Wait until new data receive */
+ 29a:	5f 9b       	sbis	0x0b, 7	; 11
+ 29c:	fe cf       	rjmp	.-4      	; 0x29a <USART_RxChar>
+	return(UDR);									/* Get and return received data */ 
+ 29e:	8c b1       	in	r24, 0x0c	; 12
+}
+ 2a0:	08 95       	ret
+
+000002a2 <__udivmodsi4>:
+ 2a2:	a1 e2       	ldi	r26, 0x21	; 33
+ 2a4:	1a 2e       	mov	r1, r26
+ 2a6:	aa 1b       	sub	r26, r26
+ 2a8:	bb 1b       	sub	r27, r27
+ 2aa:	fd 01       	movw	r30, r26
+ 2ac:	0d c0       	rjmp	.+26     	; 0x2c8 <__udivmodsi4_ep>
+
+000002ae <__udivmodsi4_loop>:
+ 2ae:	aa 1f       	adc	r26, r26
+ 2b0:	bb 1f       	adc	r27, r27
+ 2b2:	ee 1f       	adc	r30, r30
+ 2b4:	ff 1f       	adc	r31, r31
+ 2b6:	a2 17       	cp	r26, r18
+ 2b8:	b3 07       	cpc	r27, r19
+ 2ba:	e4 07       	cpc	r30, r20
+ 2bc:	f5 07       	cpc	r31, r21
+ 2be:	20 f0       	brcs	.+8      	; 0x2c8 <__udivmodsi4_ep>
+ 2c0:	a2 1b       	sub	r26, r18
+ 2c2:	b3 0b       	sbc	r27, r19
+ 2c4:	e4 0b       	sbc	r30, r20
+ 2c6:	f5 0b       	sbc	r31, r21
+
+000002c8 <__udivmodsi4_ep>:
+ 2c8:	66 1f       	adc	r22, r22
+ 2ca:	77 1f       	adc	r23, r23
+ 2cc:	88 1f       	adc	r24, r24
+ 2ce:	99 1f       	adc	r25, r25
+ 2d0:	1a 94       	dec	r1
+ 2d2:	69 f7       	brne	.-38     	; 0x2ae <__udivmodsi4_loop>
+ 2d4:	60 95       	com	r22
+ 2d6:	70 95       	com	r23
+ 2d8:	80 95       	com	r24
+ 2da:	90 95       	com	r25
+ 2dc:	9b 01       	movw	r18, r22
+ 2de:	ac 01       	movw	r20, r24
+ 2e0:	bd 01       	movw	r22, r26
+ 2e2:	cf 01       	movw	r24, r30
+ 2e4:	08 95       	ret
+
+000002e6 <_exit>:
+ 2e6:	f8 94       	cli
+
+000002e8 <__stop_program>:
+ 2e8:	ff cf       	rjmp	.-2      	; 0x2e8 <__stop_program>

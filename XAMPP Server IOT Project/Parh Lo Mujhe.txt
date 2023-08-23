@@ -1,0 +1,13 @@
+For operating local host 
+type in the chrome URL Bar
+check the ip using """ipconfig""" on command prompt
+Put it in the NodeMCU Code
+localhost/*file in the xampp htdocs where the php files are stored*
+for example
+localhost/NodeMCU-and-RFID-RC522-IoT-Projects
+
+
+
+
+First you can make changes on the localhost databases like add data on the tables
+http://localhost/phpmyadmin

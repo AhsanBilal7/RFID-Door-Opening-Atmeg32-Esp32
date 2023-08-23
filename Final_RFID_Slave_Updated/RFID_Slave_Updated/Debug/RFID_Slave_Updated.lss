@@ -1,0 +1,418 @@
+
+RFID_Slave_Updated.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000202  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000014  00800060  00000202  00000276  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  0000028a  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002bc  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000090  00000000  00000000  000002f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000be8  00000000  00000000  00000388  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000841  00000000  00000000  00000f70  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000005d2  00000000  00000000  000017b1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000000fc  00000000  00000000  00001d84  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000403  00000000  00000000  00001e80  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000421  00000000  00000000  00002283  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000060  00000000  00000000  000026a4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e2 e0       	ldi	r30, 0x02	; 2
+  68:	f2 e0       	ldi	r31, 0x02	; 2
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a4 37       	cpi	r26, 0x74	; 116
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 c1 00 	call	0x182	; 0x182 <main>
+  7a:	0c 94 ff 00 	jmp	0x1fe	; 0x1fe <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <SPI_Init>:
+char SPI_Transmit(char data)					/* SPI transmit data function */
+{
+	SPDR = data;								/* Write data to SPI data register */
+	while(!(SPSR & (1<<SPIF)));					/* Wait till transmission complete */
+	return(SPDR);								/* return received data */
+}
+  82:	87 b3       	in	r24, 0x17	; 23
+  84:	8f 74       	andi	r24, 0x4F	; 79
+  86:	87 bb       	out	0x17, r24	; 23
+  88:	87 b3       	in	r24, 0x17	; 23
+  8a:	80 64       	ori	r24, 0x40	; 64
+  8c:	87 bb       	out	0x17, r24	; 23
+  8e:	80 e4       	ldi	r24, 0x40	; 64
+  90:	8d b9       	out	0x0d, r24	; 13
+  92:	08 95       	ret
+
+00000094 <SPI_Receive>:
+
+char SPI_Receive()								/* SPI Receive data function */
+{
+	while(!(SPSR & (1<<SPIF)));					/* Wait till reception complete */
+  94:	77 9b       	sbis	0x0e, 7	; 14
+  96:	fe cf       	rjmp	.-4      	; 0x94 <SPI_Receive>
+	return(SPDR);								/* return received data */
+  98:	8f b1       	in	r24, 0x0f	; 15
+}
+  9a:	08 95       	ret
+
+0000009c <LCD_Command>:
+#include "LCD_16x2_H_file.h"						/* Include LCD header file */
+
+
+void LCD_Command (char cmd)							/* LCD command write function */
+{
+	LCD_Data_Port = cmd;							/* Write command data to LCD data port */
+  9c:	82 bb       	out	0x12, r24	; 18
+	LCD_Command_Port &= ~((1<<RS)|(1<<RW));			/* Make RS LOW (command reg.), RW LOW (Write) */
+  9e:	85 b3       	in	r24, 0x15	; 21
+  a0:	87 7e       	andi	r24, 0xE7	; 231
+  a2:	85 bb       	out	0x15, r24	; 21
+	LCD_Command_Port |= (1<<EN);					/* High to Low transition on EN (Enable) */
+  a4:	85 b3       	in	r24, 0x15	; 21
+  a6:	84 60       	ori	r24, 0x04	; 4
+  a8:	85 bb       	out	0x15, r24	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  aa:	82 e0       	ldi	r24, 0x02	; 2
+  ac:	8a 95       	dec	r24
+  ae:	f1 f7       	brne	.-4      	; 0xac <LCD_Command+0x10>
+  b0:	00 c0       	rjmp	.+0      	; 0xb2 <LCD_Command+0x16>
+	_delay_us(1);
+	LCD_Command_Port &= ~(1<<EN);
+  b2:	85 b3       	in	r24, 0x15	; 21
+  b4:	8b 7f       	andi	r24, 0xFB	; 251
+  b6:	85 bb       	out	0x15, r24	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  b8:	8f e6       	ldi	r24, 0x6F	; 111
+  ba:	97 e1       	ldi	r25, 0x17	; 23
+  bc:	01 97       	sbiw	r24, 0x01	; 1
+  be:	f1 f7       	brne	.-4      	; 0xbc <LCD_Command+0x20>
+  c0:	00 c0       	rjmp	.+0      	; 0xc2 <LCD_Command+0x26>
+  c2:	00 00       	nop
+  c4:	08 95       	ret
+
+000000c6 <LCD_Char>:
+	_delay_ms(3);									/* Wait little bit */
+}
+
+void LCD_Char (char char_data)						/* LCD data write function */
+{
+	LCD_Data_Port = char_data;						/* Write data to LCD data port */
+  c6:	82 bb       	out	0x12, r24	; 18
+	LCD_Command_Port &= ~(1<<RW);					/* Make RW LOW (Write) */
+  c8:	85 b3       	in	r24, 0x15	; 21
+  ca:	87 7f       	andi	r24, 0xF7	; 247
+  cc:	85 bb       	out	0x15, r24	; 21
+	LCD_Command_Port |= (1<<EN)|(1<<RS);			/* Make RS HIGH (data reg.) and High to Low transition on EN (Enable) */
+  ce:	85 b3       	in	r24, 0x15	; 21
+  d0:	84 61       	ori	r24, 0x14	; 20
+  d2:	85 bb       	out	0x15, r24	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  d4:	82 e0       	ldi	r24, 0x02	; 2
+  d6:	8a 95       	dec	r24
+  d8:	f1 f7       	brne	.-4      	; 0xd6 <LCD_Char+0x10>
+  da:	00 c0       	rjmp	.+0      	; 0xdc <LCD_Char+0x16>
+	_delay_us(1);
+	LCD_Command_Port &= ~(1<<EN);
+  dc:	85 b3       	in	r24, 0x15	; 21
+  de:	8b 7f       	andi	r24, 0xFB	; 251
+  e0:	85 bb       	out	0x15, r24	; 21
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  e2:	8f ec       	ldi	r24, 0xCF	; 207
+  e4:	97 e0       	ldi	r25, 0x07	; 7
+  e6:	01 97       	sbiw	r24, 0x01	; 1
+  e8:	f1 f7       	brne	.-4      	; 0xe6 <LCD_Char+0x20>
+  ea:	00 c0       	rjmp	.+0      	; 0xec <LCD_Char+0x26>
+  ec:	00 00       	nop
+  ee:	08 95       	ret
+
+000000f0 <LCD_Init>:
+	_delay_ms(1);									/* Wait little bit */
+}
+
+void LCD_Init (void)								/* LCD Initialize function */
+{
+	LCD_Command_Dir |= (1<<RS)|(1<<RW)|(1<<EN);		/* Make LCD command port direction as o/p */
+  f0:	84 b3       	in	r24, 0x14	; 20
+  f2:	8c 61       	ori	r24, 0x1C	; 28
+  f4:	84 bb       	out	0x14, r24	; 20
+	LCD_Data_Dir = 0xFF;							/* Make LCD data port direction as o/p */
+  f6:	8f ef       	ldi	r24, 0xFF	; 255
+  f8:	81 bb       	out	0x11, r24	; 17
+  fa:	8f e3       	ldi	r24, 0x3F	; 63
+  fc:	9c e9       	ldi	r25, 0x9C	; 156
+  fe:	01 97       	sbiw	r24, 0x01	; 1
+ 100:	f1 f7       	brne	.-4      	; 0xfe <LCD_Init+0xe>
+ 102:	00 c0       	rjmp	.+0      	; 0x104 <LCD_Init+0x14>
+ 104:	00 00       	nop
+	
+	_delay_ms(20);									/* LCD power up time to get things ready, it should always >15ms */
+	LCD_Command (0x38);								/* Initialize 16X2 LCD in 8bit mode */
+ 106:	88 e3       	ldi	r24, 0x38	; 56
+ 108:	0e 94 4e 00 	call	0x9c	; 0x9c <LCD_Command>
+	LCD_Command (0x0C);								/* Display ON, Cursor OFF command */
+ 10c:	8c e0       	ldi	r24, 0x0C	; 12
+ 10e:	0e 94 4e 00 	call	0x9c	; 0x9c <LCD_Command>
+	LCD_Command (0x06);								/* Auto Increment cursor */
+ 112:	86 e0       	ldi	r24, 0x06	; 6
+ 114:	0e 94 4e 00 	call	0x9c	; 0x9c <LCD_Command>
+	LCD_Command (0x01);								/* Clear LCD command */
+ 118:	81 e0       	ldi	r24, 0x01	; 1
+ 11a:	0e 94 4e 00 	call	0x9c	; 0x9c <LCD_Command>
+	LCD_Command (0x80);								/* 8 is for first line and 0 is for 0th position */
+ 11e:	80 e8       	ldi	r24, 0x80	; 128
+ 120:	0e 94 4e 00 	call	0x9c	; 0x9c <LCD_Command>
+ 124:	08 95       	ret
+
+00000126 <LCD_String>:
+}
+
+void LCD_String (char *str)							/* Send string to LCD function */
+{
+ 126:	0f 93       	push	r16
+ 128:	1f 93       	push	r17
+ 12a:	cf 93       	push	r28
+ 12c:	df 93       	push	r29
+ 12e:	8c 01       	movw	r16, r24
+	int i;
+	for(i=0;str[i]!=0;i++)							/* Send each char of string till the NULL */
+ 130:	c0 e0       	ldi	r28, 0x00	; 0
+ 132:	d0 e0       	ldi	r29, 0x00	; 0
+ 134:	03 c0       	rjmp	.+6      	; 0x13c <LCD_String+0x16>
+	{
+		LCD_Char (str[i]);							/* Call LCD data write */
+ 136:	0e 94 63 00 	call	0xc6	; 0xc6 <LCD_Char>
+}
+
+void LCD_String (char *str)							/* Send string to LCD function */
+{
+	int i;
+	for(i=0;str[i]!=0;i++)							/* Send each char of string till the NULL */
+ 13a:	21 96       	adiw	r28, 0x01	; 1
+ 13c:	f8 01       	movw	r30, r16
+ 13e:	ec 0f       	add	r30, r28
+ 140:	fd 1f       	adc	r31, r29
+ 142:	80 81       	ld	r24, Z
+ 144:	81 11       	cpse	r24, r1
+ 146:	f7 cf       	rjmp	.-18     	; 0x136 <LCD_String+0x10>
+	{
+		LCD_Char (str[i]);							/* Call LCD data write */
+	}
+}
+ 148:	df 91       	pop	r29
+ 14a:	cf 91       	pop	r28
+ 14c:	1f 91       	pop	r17
+ 14e:	0f 91       	pop	r16
+ 150:	08 95       	ret
+
+00000152 <LCD_String_xy>:
+
+void LCD_String_xy (char row, char pos, char *str)	/* Send string to LCD function */
+{
+ 152:	cf 93       	push	r28
+ 154:	df 93       	push	r29
+ 156:	ea 01       	movw	r28, r20
+	if (row == 1)
+ 158:	81 30       	cpi	r24, 0x01	; 1
+ 15a:	31 f4       	brne	.+12     	; 0x168 <LCD_String_xy+0x16>
+		LCD_Command((pos & 0x0F)|0x80);				/* Command of first row and required position<16 */
+ 15c:	86 2f       	mov	r24, r22
+ 15e:	8f 70       	andi	r24, 0x0F	; 15
+ 160:	80 68       	ori	r24, 0x80	; 128
+ 162:	0e 94 4e 00 	call	0x9c	; 0x9c <LCD_Command>
+ 166:	07 c0       	rjmp	.+14     	; 0x176 <LCD_String_xy+0x24>
+	else if (row == 2)
+ 168:	82 30       	cpi	r24, 0x02	; 2
+ 16a:	29 f4       	brne	.+10     	; 0x176 <LCD_String_xy+0x24>
+		LCD_Command((pos & 0x0F)|0xC0);				/* Command of Second row and required position<16 */
+ 16c:	86 2f       	mov	r24, r22
+ 16e:	8f 70       	andi	r24, 0x0F	; 15
+ 170:	80 6c       	ori	r24, 0xC0	; 192
+ 172:	0e 94 4e 00 	call	0x9c	; 0x9c <LCD_Command>
+	LCD_String(str);								/* Call LCD string function */
+ 176:	ce 01       	movw	r24, r28
+ 178:	0e 94 93 00 	call	0x126	; 0x126 <LCD_String>
+}
+ 17c:	df 91       	pop	r29
+ 17e:	cf 91       	pop	r28
+ 180:	08 95       	ret
+
+00000182 <main>:
+#include <string.h>						/* Include string header file */
+#include "LCD_16x2_H_file.h"			/* Include LCD header file */
+#include "SPI_Slave_H_file.h"			/* Include SPI slave header file */
+
+int main(void)
+{
+ 182:	cf 93       	push	r28
+ 184:	df 93       	push	r29
+ 186:	cd b7       	in	r28, 0x3d	; 61
+ 188:	de b7       	in	r29, 0x3e	; 62
+ 18a:	2f 97       	sbiw	r28, 0x0f	; 15
+ 18c:	0f b6       	in	r0, 0x3f	; 63
+ 18e:	f8 94       	cli
+ 190:	de bf       	out	0x3e, r29	; 62
+ 192:	0f be       	out	0x3f, r0	; 63
+ 194:	cd bf       	out	0x3d, r28	; 61
+	uint8_t count;
+	char buffer[5];
+char RFID[15];
+memset(RFID,0,15);
+ 196:	fe 01       	movw	r30, r28
+ 198:	31 96       	adiw	r30, 0x01	; 1
+ 19a:	8f e0       	ldi	r24, 0x0F	; 15
+ 19c:	df 01       	movw	r26, r30
+ 19e:	1d 92       	st	X+, r1
+ 1a0:	8a 95       	dec	r24
+ 1a2:	e9 f7       	brne	.-6      	; 0x19e <main+0x1c>
+
+	LCD_Init();
+ 1a4:	0e 94 78 00 	call	0xf0	; 0xf0 <LCD_Init>
+	SPI_Init();
+ 1a8:	0e 94 41 00 	call	0x82	; 0x82 <SPI_Init>
+	
+	LCD_String_xy(1, 0, "Slave Device");
+ 1ac:	40 e6       	ldi	r20, 0x60	; 96
+ 1ae:	50 e0       	ldi	r21, 0x00	; 0
+ 1b0:	60 e0       	ldi	r22, 0x00	; 0
+ 1b2:	81 e0       	ldi	r24, 0x01	; 1
+ 1b4:	0e 94 a9 00 	call	0x152	; 0x152 <LCD_String_xy>
+	   // LCD_String_xy(2, 0, "Receive Data:    ");
+			LCD_String_xy(2, 0,"Ahsan");
+ 1b8:	4d e6       	ldi	r20, 0x6D	; 109
+ 1ba:	50 e0       	ldi	r21, 0x00	; 0
+ 1bc:	60 e0       	ldi	r22, 0x00	; 0
+ 1be:	82 e0       	ldi	r24, 0x02	; 2
+ 1c0:	0e 94 a9 00 	call	0x152	; 0x152 <LCD_String_xy>
+
+	while (1)
+	{
+		
+		for (int i=0;i<12;i++)
+ 1c4:	00 e0       	ldi	r16, 0x00	; 0
+ 1c6:	10 e0       	ldi	r17, 0x00	; 0
+ 1c8:	0b c0       	rjmp	.+22     	; 0x1e0 <main+0x5e>
+		{
+			RFID[i]=SPI_Receive();
+ 1ca:	0e 94 4a 00 	call	0x94	; 0x94 <SPI_Receive>
+ 1ce:	e1 e0       	ldi	r30, 0x01	; 1
+ 1d0:	f0 e0       	ldi	r31, 0x00	; 0
+ 1d2:	ec 0f       	add	r30, r28
+ 1d4:	fd 1f       	adc	r31, r29
+ 1d6:	e0 0f       	add	r30, r16
+ 1d8:	f1 1f       	adc	r31, r17
+ 1da:	80 83       	st	Z, r24
+			LCD_String_xy(2, 0,"Ahsan");
+
+	while (1)
+	{
+		
+		for (int i=0;i<12;i++)
+ 1dc:	0f 5f       	subi	r16, 0xFF	; 255
+ 1de:	1f 4f       	sbci	r17, 0xFF	; 255
+ 1e0:	0c 30       	cpi	r16, 0x0C	; 12
+ 1e2:	11 05       	cpc	r17, r1
+ 1e4:	94 f3       	brlt	.-28     	; 0x1ca <main+0x48>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1e6:	ba e1       	ldi	r27, 0x1A	; 26
+ 1e8:	ba 95       	dec	r27
+ 1ea:	f1 f7       	brne	.-4      	; 0x1e8 <main+0x66>
+ 1ec:	00 c0       	rjmp	.+0      	; 0x1ee <main+0x6c>
+		{
+			RFID[i]=SPI_Receive();
+		}
+		_delay_us(10);
+		//lcd_print("Ahsan");
+		LCD_String_xy(2, 0,RFID);
+ 1ee:	ae 01       	movw	r20, r28
+ 1f0:	4f 5f       	subi	r20, 0xFF	; 255
+ 1f2:	5f 4f       	sbci	r21, 0xFF	; 255
+ 1f4:	60 e0       	ldi	r22, 0x00	; 0
+ 1f6:	82 e0       	ldi	r24, 0x02	; 2
+ 1f8:	0e 94 a9 00 	call	0x152	; 0x152 <LCD_String_xy>
+
+	}
+ 1fc:	e3 cf       	rjmp	.-58     	; 0x1c4 <main+0x42>
+
+000001fe <_exit>:
+ 1fe:	f8 94       	cli
+
+00000200 <__stop_program>:
+ 200:	ff cf       	rjmp	.-2      	; 0x200 <__stop_program>
